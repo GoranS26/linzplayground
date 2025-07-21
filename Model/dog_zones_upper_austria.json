@@ -1,17 +1,17 @@
 [
   {
-    "name": "Hundezone Donaulände",
-    "address": "Untere Donaulände, 4020 Linz",
+    "name": "Hundezone Winterhafen",
+    "address": "Am Winterhafen, 4020 Linz",
     "description": "A spacious riverside dog park offering scenic views of the Danube and plenty of room for active dogs to run and socialize.",
-    "latitude": 48.3118,
-    "longitude": 14.2875
+    "latitude": 48.3201966719335,
+    "longitude": 14.303636331816152
   },
   {
-    "name": "Hundezone Park Petrinum",
-    "address": "Stockhofstraße 40, 4020 Linz",
-    "description": "A peaceful green space located near the Petrinum school, ideal for relaxed walks and playtime in a quiet environment.",
-    "latitude": 48.2962,
-    "longitude": 14.2674
+    "name": "Hundefreilauffläche",
+    "address": "Bahnhofstraße(Blumauerstraße), 4020 Linz",
+    "description": "Small free dog zone just next to Musiktheater",
+    "latitude": 48.29541648062765,
+    "longitude": 14.295588891725926
   },
   {
     "name": "Hundewiese Wasserwald",

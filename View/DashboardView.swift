@@ -36,11 +36,50 @@ struct DashboardView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(
-                    colors: [Color.indigo],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                Color.blue.ignoresSafeArea()
+                
+                // Custom positioned background circles
+                ZStack {
+                    // Top-left big circle
+                    Circle()
+                        .fill(Color.indigo.opacity(0.3))
+                        .frame(width: 300, height: 300)
+                        .offset(x: -150, y: -250)
+
+                    // Mid-left small circle
+                    Circle()
+                        .fill(Color.indigo.opacity(0.4))
+                        .frame(width: 80, height: 80)
+                        .offset(x: -160, y: 100)
+                    
+                    // Mid-right big circle
+                    Circle()
+                        .fill(Color.indigo.opacity(0.4))
+                        .frame(width: 250, height: 250)
+                        .offset(x: 130, y: 370)
+                    
+                    // Top-right small cluster
+                    Circle()
+                        .fill(Color.indigo.opacity(0.3))
+                        .frame(width: 60, height: 60)
+                        .offset(x: 140, y: 60)
+                    
+                    Circle()
+                        .fill(Color.indigo.opacity(0.35))
+                        .frame(width: 150, height: 150)
+                        .offset(x: 100, y: -350)
+                    
+                    // Center scatter
+                    Circle()
+                        .fill(Color.indigo.opacity(0.25))
+                        .frame(width: 200, height: 200)
+                        .offset(x: -170, y: 270)
+                    
+                    Circle()
+                        .fill(Color.indigo.opacity(0.3))
+                        .frame(width: 30, height: 30)
+                        .offset(x: 190, y: -50)
+                }
                 .ignoresSafeArea()
                 
                 VStack(spacing: 16) {
