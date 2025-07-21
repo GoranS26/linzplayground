@@ -19,6 +19,20 @@ struct DashboardView: View {
     )
     @State var searchText: String = ""
     
+    // Filter dog parks based on search text
+    var filteredParks: [DogPark] {
+        if searchText.isEmpty {
+            return viewModel.dogParks
+        } else {
+            return viewModel.dogParks.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText) ||
+                $0.address.localizedCaseInsensitiveContains(searchText) ||
+                $0.description.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -57,7 +71,7 @@ struct DashboardView: View {
                     
             
                     // Map with pins
-                    Map(coordinateRegion: $region, annotationItems: viewModel.dogParks) { park in
+                    Map(coordinateRegion: $region, annotationItems: filteredParks) { park in
                         MapAnnotation(coordinate: park.coordinate) {
                             VStack(spacing: 2) {
                                 Image(systemName: "pawprint.fill")
@@ -86,7 +100,7 @@ struct DashboardView: View {
                     // List of dog parks
                     ScrollView {
                         VStack(spacing: 12) {
-                            ForEach(viewModel.dogParks) { park in
+                            ForEach(filteredParks) { park in
                                 Button(action: {
                                     withAnimation {
                                         selectedPark = park
