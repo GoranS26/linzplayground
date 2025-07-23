@@ -12,12 +12,15 @@ import CoreLocation
 struct DashboardView: View {
     
     @StateObject private var viewModel = DogParksViewModel()
+    
     @State private var selectedPark: DogPark?
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 48.30694, longitude: 14.28583), // Linz center
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
     @State var searchText: String = ""
+    
+    @FocusState var isFocused: Bool
     
     // Filter dog parks based on search text
     var filteredParks: [DogPark] {
@@ -36,68 +39,82 @@ struct DashboardView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.blue.ignoresSafeArea()
+                LinearGradient(colors: [Color.indigo, Color.purple], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
                 
                 // Custom positioned background circles
                 ZStack {
-                    // Top-left big circle
-                    Circle()
-                        .fill(Color.indigo.opacity(0.3))
-                        .frame(width: 300, height: 300)
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
                         .offset(x: -150, y: -250)
+                        .blur(radius: 1)
+                    
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
+                        .offset(x: 20, y: -200)
+                        .blur(radius: 1)
 
-                    // Mid-left small circle
-                    Circle()
-                        .fill(Color.indigo.opacity(0.4))
-                        .frame(width: 80, height: 80)
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
                         .offset(x: -160, y: 100)
-                    
-                    // Mid-right big circle
-                    Circle()
-                        .fill(Color.indigo.opacity(0.4))
-                        .frame(width: 250, height: 250)
+
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
                         .offset(x: 130, y: 370)
-                    
-                    // Top-right small cluster
-                    Circle()
-                        .fill(Color.indigo.opacity(0.3))
-                        .frame(width: 60, height: 60)
+
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
                         .offset(x: 140, y: 60)
-                    
-                    Circle()
-                        .fill(Color.indigo.opacity(0.35))
-                        .frame(width: 150, height: 150)
+
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
                         .offset(x: 100, y: -350)
-                    
-                    // Center scatter
-                    Circle()
-                        .fill(Color.indigo.opacity(0.25))
-                        .frame(width: 200, height: 200)
-                        .offset(x: -170, y: 270)
-                    
-                    Circle()
-                        .fill(Color.indigo.opacity(0.3))
-                        .frame(width: 30, height: 30)
-                        .offset(x: 190, y: -50)
+
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
+                        .offset(x: -90, y: 300)
+
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(Color.white.opacity(0.08))
+                        .frame(width: 100, height: 100)
+                        .offset(x: 100, y: -100)
                 }
                 .ignoresSafeArea()
                 
                 VStack(spacing: 16) {
-                    Text("Linz Dog Zones")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding(.top)
-                    
                     HStack {
                         TextField("", text: $searchText, prompt:
                                     Text("Search for zones...")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.white.opacity(0.4))
                             .fontDesign(.rounded)
                             .fontWeight(.bold)
                                   
                         )
                         .autocapitalization(.none)
+                        .bold()
                         .foregroundStyle(.white)
                         .textContentType(.emailAddress)
                         .frame(height: 50)
@@ -175,6 +192,7 @@ struct DashboardView: View {
                     }
                     .scrollIndicators(.hidden)
                 }
+                
             }
             .sheet(item: $selectedPark) { park in
                             DogParkDetailSheet(park: park)

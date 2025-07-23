@@ -11,6 +11,7 @@ import CoreLocation
 // ViewModel to load JSON and convert
 
 class DogParksViewModel: ObservableObject {
+    
     @Published var dogParks: [DogPark] = []
     
     

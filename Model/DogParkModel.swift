@@ -17,7 +17,7 @@ struct DogParkData: Decodable {
     let longitude: Double
 }
 
-
+// Dog Park Model
 struct DogPark: Identifiable, Equatable {
     let id = UUID()
     let name: String
