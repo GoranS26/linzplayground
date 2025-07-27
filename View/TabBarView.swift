@@ -37,9 +37,7 @@ struct TabBarView: View {
                                 
                             Text("Parks")
                         }
-                            
                     }
-
                 FavoriteParkView()
                     .tabItem {
                         Label("Favorites", systemImage: "heart.fill")
@@ -51,7 +49,7 @@ struct TabBarView: View {
                     }
             }
         }
-        .tint(.purple)
+        .tint(Color.indigo)
     }
 }
 

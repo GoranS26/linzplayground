@@ -7,23 +7,20 @@
 
 import SwiftUI
 import MapKit
-import CoreLocation
+//import CoreLocation
 
 struct DashboardView: View {
-    
+
     @StateObject private var viewModel = DogParksViewModel()
-    
+    @FocusState var isFocused: Bool
+    @State var searchText: String = ""
     @State private var selectedPark: DogPark?
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 48.30694, longitude: 14.28583), // Linz center
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
-    @State var searchText: String = ""
-    
-    @FocusState var isFocused: Bool
-    
     // Filter dog parks based on search text
-    var filteredParks: [DogPark] {
+     var filteredParks: [DogPark] {
         if searchText.isEmpty {
             return viewModel.dogParks
         } else {
@@ -34,7 +31,6 @@ struct DashboardView: View {
             }
         }
     }
-
     
     var body: some View {
         NavigationStack {
@@ -42,65 +38,17 @@ struct DashboardView: View {
                 LinearGradient(colors: [Color.indigo, Color.purple], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 
-                // Custom positioned background circles
+                // Custom positioned background dog image
                 ZStack {
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: -150, y: -250)
-                        .blur(radius: 1)
                     
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: 20, y: -200)
-                        .blur(radius: 1)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: -160, y: 100)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: 130, y: 370)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: 140, y: 60)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: 100, y: -350)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: -90, y: 300)
-
-                    Image(systemName: "dog.fill")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(Color.white.opacity(0.08))
-                        .frame(width: 100, height: 100)
-                        .offset(x: 100, y: -100)
+                    DogLogoView(offsetX: -150, offsetY: -250)
+                    DogLogoView(offsetX: 20, offsetY: -200)
+                    DogLogoView(offsetX: -160, offsetY: 100)
+                    DogLogoView(offsetX: 130, offsetY: 370)
+                    DogLogoView(offsetX: 140, offsetY: 60)
+                    DogLogoView(offsetX: 100, offsetY: -350)
+                    DogLogoView(offsetX: -90, offsetY: 300)
+                    DogLogoView(offsetX: 100, offsetY: -100)
                 }
                 .ignoresSafeArea()
                 
@@ -127,7 +75,12 @@ struct DashboardView: View {
                     
             
                     // Map with pins
-                    Map(coordinateRegion: $region, annotationItems: filteredParks) { park in
+                    Map(coordinateRegion: $region,
+                        interactionModes: .all,
+                        showsUserLocation: true,
+                        userTrackingMode: .constant(.none),
+                        annotationItems: filteredParks
+                    ){ park in
                         MapAnnotation(coordinate: park.coordinate) {
                             VStack(spacing: 2) {
                                 Image(systemName: "pawprint.fill")
