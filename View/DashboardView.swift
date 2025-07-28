@@ -40,7 +40,6 @@ struct DashboardView: View {
                 
                 // Custom positioned background dog image
                 ZStack {
-                    
                     DogLogoView(offsetX: -150, offsetY: -250)
                     DogLogoView(offsetX: 20, offsetY: -200)
                     DogLogoView(offsetX: -160, offsetY: 100)
@@ -50,7 +49,6 @@ struct DashboardView: View {
                     DogLogoView(offsetX: -90, offsetY: 300)
                     DogLogoView(offsetX: 100, offsetY: -100)
                 }
-                .ignoresSafeArea()
                 
                 VStack(spacing: 16) {
                     HStack {
@@ -93,7 +91,7 @@ struct DashboardView: View {
                                         .font(.caption2)
                                         .fontWeight(.semibold)
                                         .foregroundColor(.white)
-                                        .padding(4)
+                                        .padding(5)
                                         .background(Color.black.opacity(0.6))
                                         .cornerRadius(6)
                                         .fixedSize()
@@ -102,8 +100,8 @@ struct DashboardView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: 420)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(color: Color.black.opacity(0.7), radius: 10, x: 0, y: 0)
                     .padding(.horizontal)
                     
                     // List of dog parks
@@ -119,30 +117,15 @@ struct DashboardView: View {
                                         )
                                     }
                                 }) {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(park.name)
-                                            .font(.headline)
-                                            .foregroundColor(.white)
-                                        Text(park.address)
-                                            .font(.subheadline)
-                                            .foregroundColor(.white)
-                                        Text(park.description)
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
-                                                .lineLimit(2)
-                                                .multilineTextAlignment(.leading)
-                                    }
-                                    .padding()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color.white.opacity(0.1))
-                                    .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .padding(.horizontal)
+                                    ParkListView(park: park)
                                 }
+                                
                             }
+                            
                         }
                         .padding(.bottom)
                     }
+                    
                     .scrollIndicators(.hidden)
                 }
                 
