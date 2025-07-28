@@ -119,16 +119,12 @@ struct DashboardView: View {
                                 }) {
                                     ParkListView(park: park)
                                 }
-                                
                             }
-                            
                         }
                         .padding(.bottom)
                     }
-                    
                     .scrollIndicators(.hidden)
                 }
-                
             }
             .sheet(item: $selectedPark) { park in
                             DogParkDetailSheet(park: park)

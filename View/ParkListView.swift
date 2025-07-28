@@ -27,20 +27,19 @@ struct ParkListView: View {
                         .lineLimit(1)
                         .multilineTextAlignment(.leading)
             }
+            .shadow(color: .black, radius: 10)
             .padding()
-            
             .frame(maxWidth: .infinity, alignment: .leading)
-            .shadow(color: Color.black.opacity(0.9), radius: 10, x: 0, y: 10)
-            .background(Color.white.opacity(0.1))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.white.opacity(0.6), lineWidth: 2)
-                    
-            )
             
+            .background(Color.white.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 1))
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(Color.white.opacity(0.6), lineWidth: 2)
+            )
             .padding(.horizontal)
         }
+        
         
     }
 }
