@@ -17,25 +17,24 @@ struct ParkListView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(park.name)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Text(park.address)
                     .font(.subheadline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Text(park.description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.black.opacity(0.7))
                         .lineLimit(1)
                         .multilineTextAlignment(.leading)
             }
-            .shadow(color: .black, radius: 10)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            .background(Color.white.opacity(0.1))
-            .clipShape(RoundedRectangle(cornerRadius: 1))
+            .background(Color.white.opacity(0.4))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.white.opacity(0.6), lineWidth: 2)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 2)
             )
             .padding(.horizontal)
         }

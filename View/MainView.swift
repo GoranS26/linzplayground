@@ -1,3 +1,10 @@
+//
+//  MainView.swift
+//  DogPlaygrounds
+//
+//  Created by Goran Saric on 25.05.25.
+//
+
 import SwiftUI
 
 struct MainView: View {

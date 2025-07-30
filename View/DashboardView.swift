@@ -7,20 +7,22 @@
 
 import SwiftUI
 import MapKit
-//import CoreLocation
 
 struct DashboardView: View {
-
+    
     @StateObject private var viewModel = DogParksViewModel()
-    @FocusState var isFocused: Bool
-    @State var searchText: String = ""
     @State private var selectedPark: DogPark?
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 48.30694, longitude: 14.28583), // Linz center
+        center: CLLocationCoordinate2D(latitude: 48.30694, longitude: 14.28583),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
-    // Filter dog parks based on search text
-     var filteredParks: [DogPark] {
+    @State private var bounce = false
+    @State private var sheetHeight: CGFloat = 0
+    @State private var showButton = true
+    @State private var searchText: String = ""
+    @State private var filterSheetPresented: Bool = false
+
+    var filteredParks: [DogPark] {
         if searchText.isEmpty {
             return viewModel.dogParks
         } else {
@@ -31,110 +33,116 @@ struct DashboardView: View {
             }
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(colors: [Color.indigo, Color.purple], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-                
-                // Custom positioned background dog image
-                ZStack {
-                    DogLogoView(offsetX: -150, offsetY: -250)
-                    DogLogoView(offsetX: 20, offsetY: -200)
-                    DogLogoView(offsetX: -160, offsetY: 100)
-                    DogLogoView(offsetX: 130, offsetY: 370)
-                    DogLogoView(offsetX: 140, offsetY: 60)
-                    DogLogoView(offsetX: 100, offsetY: -350)
-                    DogLogoView(offsetX: -90, offsetY: 300)
-                    DogLogoView(offsetX: 100, offsetY: -100)
-                }
-                
-                VStack(spacing: 16) {
-                    HStack {
-                        TextField("", text: $searchText, prompt:
-                                    Text("Search for zones...")
-                            .foregroundStyle(.white.opacity(0.4))
-                            .fontDesign(.rounded)
-                            .fontWeight(.bold)
-                                  
-                        )
-                        .autocapitalization(.none)
-                        .bold()
-                        .foregroundStyle(.white)
-                        .textContentType(.emailAddress)
-                        .frame(height: 50)
-                        .frame(maxWidth: .infinity)
-                        .clipShape(Capsule())
-                        .padding(.horizontal)
-                        .overlay(Capsule().stroke(Color.white, lineWidth: 2))
+                Map(coordinateRegion: $region, annotationItems: filteredParks) { park in
+                    MapAnnotation(coordinate: park.coordinate) {
+                        Image(systemName: "pawprint.fill")
+                            .foregroundColor(park == selectedPark ? .indigo : Color.indigo.opacity(0.4))
+                            .font(.title2)
                     }
-                    .padding(.horizontal)
-                    
-            
-                    // Map with pins
-                    Map(coordinateRegion: $region,
-                        interactionModes: .all,
-                        showsUserLocation: true,
-                        userTrackingMode: .constant(.none),
-                        annotationItems: filteredParks
-                    ){ park in
-                        MapAnnotation(coordinate: park.coordinate) {
-                            VStack(spacing: 2) {
-                                Image(systemName: "pawprint.fill")
-                                    .foregroundColor(park == selectedPark ? .indigo : Color.indigo.opacity(0.4))
-                                    .font(.title2)
-                                
-                                // Show name only if selected
-                                if park == selectedPark {
-                                    Text(park.name)
-                                        .font(.caption2)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.white)
-                                        .padding(5)
-                                        .background(Color.black.opacity(0.6))
-                                        .cornerRadius(6)
-                                        .fixedSize()
-                                }
-                            }
+                }
+                .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                        sheetHeight = 0
+                        showButton = true
+                    }
+                }
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        TextField("Search for zones...", text: $searchText)
+                            .padding(12)
+                            .background(Color.white.opacity(0.8))
+                            .foregroundStyle(.black)
+                            .cornerRadius(16)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.4), lineWidth: 1)
+                            )
+                        
+                        Button(action: {
+                            filterSheetPresented = true
+                        }) {
+                            Image(systemName: "line.horizontal.3.decrease.circle")
+                                .font(.title2)
+                                .foregroundStyle(.indigo)
+                                .padding(8)
+                                .background(Color.white.opacity(0.8))
+                                .clipShape(Circle())
+                        }
+                        .sheet(isPresented: $filterSheetPresented) {
+                            FilterSheetPlaceholder()
                         }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 420)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(color: Color.black.opacity(0.7), radius: 10, x: 0, y: 0)
                     .padding(.horizontal)
-                    
-                    // List of dog parks
+                    .padding(.top)
+
+                    Spacer()
+                }
+
+                // Bottom Sheet with list of parks
+                BottomSheetView(height: 0...UIScreen.main.bounds.height / 2, currentHeight: $sheetHeight) {
                     ScrollView {
                         VStack(spacing: 12) {
                             ForEach(filteredParks) { park in
-                                Button(action: {
+                                Button {
                                     withAnimation {
                                         selectedPark = park
-                                        region = MKCoordinateRegion(
-                                            center: park.coordinate,
-                                            span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-                                        )
+                                        region.center = park.coordinate
                                     }
-                                }) {
+                                } label: {
                                     ParkListView(park: park)
                                 }
                             }
                         }
-                        .padding(.bottom)
+                        .padding(.vertical)
                     }
-                    .scrollIndicators(.hidden)
+                }
+
+                if showButton {
+                    Button(action: {
+                        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                            sheetHeight = UIScreen.main.bounds.height / 2
+                            showButton = false
+                        }
+                    }) {
+                        Image(systemName: "chevron.compact.up")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.white.opacity(0.8))
+                            .frame(width: 56, height: 56)
+                            .background(Color.indigo.opacity(0.85))
+                            .clipShape(Circle())
+                            .shadow(radius: 8)
+                            .offset(y: bounce ? -6 : 0)  // Bounce offset
+                                        .animation(
+                                            Animation.easeInOut(duration: 1.4)
+                                                .repeatForever(autoreverses: true),
+                                            value: bounce
+                                        )
+                    }
+                    .padding(.bottom, 150)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut, value: showButton)
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 40)
+                    .onAppear {
+                        bounce = true
+                    }
                 }
             }
             .sheet(item: $selectedPark) { park in
-                            DogParkDetailSheet(park: park)
-                        }
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationBarTitleDisplayMode(.inline)
+                DogParkDetailSheet(park: park)
+            }
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationBarBackButtonHidden(true)
     }
 }
+
+
+
 
 #Preview {
     DashboardView()
