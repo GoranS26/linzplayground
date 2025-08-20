@@ -37,7 +37,7 @@ struct DogParkDetailSheet: View {
 }
 
 #Preview {
-    DogParkDetailSheet(park: DogPark(name: "Hundezone Donaulände", address: "Untere Donaulände, 4020 Linz", description: "A spacious riverside dog park offering scenic views of the Danube and plenty of room for active dogs to run and socialize.", coordinate: CLLocationCoordinate2D(latitude: 48.3118, longitude: 14.2875)))
+    DogParkDetailSheet(park: DogPark(id: "858C04CF-4D30-49E8-A46F-910C5852A758", name: "Hundezone Donaulände", address: "Untere Donaulände, 4020 Linz", description: "A spacious riverside dog park offering scenic views of the Danube and plenty of room for active dogs to run and socialize.", coordinate: CLLocationCoordinate2D(latitude: 48.3118, longitude: 14.2875)))
 }
 
 

@@ -1,5 +1,6 @@
 [
   {
+    "id": "858C04CF-4D30-49E8-A46F-910C5852A758",
     "name": "Hundezone Winterhafen",
     "address": "Am Winterhafen, 4020 Linz",
     "description": "A spacious riverside dog park offering scenic views of the Danube and plenty of room for active dogs to run and socialize.",
@@ -7,6 +8,7 @@
     "longitude": 14.303636331816152
   },
   {
+    "id": "D3CC7DA6-7E98-47E7-B635-B184C1B61F93",
     "name": "Hundefreilauffläche",
     "address": "Bahnhofstraße(Blumauerstraße), 4020 Linz",
     "description": "Small free dog zone just next to Musiktheater",
@@ -14,6 +16,7 @@
     "longitude": 14.295588891725926
   },
   {
+    "id": "0D7C29DB-A337-40DA-B8ED-4E618FFE0883",
     "name": "Hundewiese Wasserwald",
     "address": "Wasserwaldpark, 4030 Linz",
     "description": "Surrounded by trees, this park provides a shaded, natural area for dogs to explore and exercise freely.",
@@ -21,6 +24,7 @@
     "longitude": 14.2843
   },
   {
+    "id": "A7F1B2C4-9D45-4F11-82B7-1E9D8B2F4C12",
     "name": "Hundezone Franckviertel",
     "address": "Ing-Stern-Straße, 4020 Linz",
     "description": "Located in a residential area, this park offers a convenient and safe place for local dog owners to meet and let their pets play.",
@@ -28,6 +32,7 @@
     "longitude": 14.315536
   },
   {
+    "id": "F2D3C4B5-6A77-4E88-B99A-2C3D4E5F6A78",
     "name": "Hundezone Neue Heimat",
     "address": "Neue Heimat, 4030 Linz",
     "description": "A community-friendly dog park with open grassy fields perfect for fetch, training, and socialization.",
@@ -35,6 +40,7 @@
     "longitude": 14.3028
   },
   {
+    "id": "C1B2A3D4-5E6F-4789-ABCD-1E2F3A4B5C6D",
     "name": "Hundezone Bindermichl",
     "address": "Bindermichl, 4040 Linz",
     "description": "A cozy dog area nestled within the Bindermichl neighborhood, known for its relaxed atmosphere and community vibe.",
@@ -42,6 +48,7 @@
     "longitude": 14.2609
   },
   {
+    "id": "B3C4D5E6-F789-4A12-BC34-5D6E7F8A9B01",
     "name": "Hundezone Pichling",
     "address": "Pichling, 4030 Linz",
     "description": "Near lakes and walking paths, this dog zone is perfect for energetic dogs that love nature and longer outings.",
@@ -49,6 +56,7 @@
     "longitude": 14.3562
   },
   {
+    "id": "D4E5F6A7-8123-4B45-C678-9A0B1C2D3E4F",
     "name": "Hundezone St. Magdalena",
     "address": "St. Magdalena, 4020 Linz",
     "description": "Located in a quiet district, this dog park offers a mix of open space and shaded spots, great for all kinds of weather.",
@@ -56,6 +64,7 @@
     "longitude": 14.3080
   },
   {
+    "id": "E5F6A7B8-9234-4C56-D789-0B1C2D3E4F5A",
     "name": "Hundezone Spallerhof",
     "address": "Spallerhofstraße, 4020 Linz",
     "description": "A centrally located dog zone with a fenced area, ideal for training sessions and safe off-leash play.",
@@ -63,6 +72,7 @@
     "longitude": 14.3034
   },
   {
+    "id": "F6A7B8C9-0345-4D67-E890-1C2D3E4F5A6B",
     "name": "Hundezone Bindermichl – Kremplstraße",
     "address": "Kremplstraße, 4040 Linz",
     "description": "This quiet spot offers a blend of natural surroundings and urban convenience, great for quick daily walks.",

@@ -11,6 +11,7 @@ import MapKit
 struct DashboardView: View {
     
     @StateObject private var viewModel = DogParksViewModel()
+    
     @State private var selectedPark: DogPark?
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 48.30694, longitude: 14.28583),
@@ -21,6 +22,8 @@ struct DashboardView: View {
     @State private var showButton = true
     @State private var searchText: String = ""
     @State private var filterSheetPresented: Bool = false
+    @State private var detailPark: DogPark? = nil
+    @State private var showDetailSheet = false
 
     var filteredParks: [DogPark] {
         if searchText.isEmpty {
@@ -39,9 +42,48 @@ struct DashboardView: View {
             ZStack {
                 Map(coordinateRegion: $region, annotationItems: filteredParks) { park in
                     MapAnnotation(coordinate: park.coordinate) {
-                        Image(systemName: "pawprint.fill")
-                            .foregroundColor(park == selectedPark ? .indigo : Color.indigo.opacity(0.4))
-                            .font(.title2)
+                        VStack(spacing: 4) {
+                            if selectedPark == park {
+                               
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(park.name)
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                    
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            detailPark = park
+//                                            showDetailSheet = true
+                                        }
+                                    }) {
+                                        Text("More…")
+                                            .font(.caption2)
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(Color.white.opacity(0.2))
+                                            .cornerRadius(8)
+                                    }
+                                }
+                                .padding(8)
+                                .background(Color.indigo)
+                                .cornerRadius(12)
+                                .shadow(radius: 4)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedPark)
+                            }
+                            
+                            // Paw icon
+                            Image(systemName: "pawprint.fill")
+                                .foregroundColor(selectedPark == park ? .indigo : Color.indigo.opacity(0.4))
+                                .font(.title2)
+                                .onTapGesture {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                        selectedPark = park
+                                    }
+                                }
+                        }
                     }
                 }
                 .ignoresSafeArea()
@@ -49,8 +91,10 @@ struct DashboardView: View {
                     withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
                         sheetHeight = 0
                         showButton = true
+                        selectedPark = nil
                     }
                 }
+                
                 VStack(spacing: 12) {
                     HStack(spacing: 12) {
                         TextField("Search for zones...", text: $searchText)
@@ -84,14 +128,19 @@ struct DashboardView: View {
                 }
 
                 // Bottom Sheet with list of parks
-                BottomSheetView(height: 0...UIScreen.main.bounds.height / 2, currentHeight: $sheetHeight) {
+                BottomSheetView(height: 0...UIScreen.main.bounds.height * 0.5, currentHeight: $sheetHeight) {
                     ScrollView {
                         VStack(spacing: 12) {
                             ForEach(filteredParks) { park in
                                 Button {
                                     withAnimation {
                                         selectedPark = park
-                                        region.center = park.coordinate
+                                        region.center = CLLocationCoordinate2D(
+                                            latitude: park.coordinate.latitude + 0.0050,
+                                            longitude: park.coordinate.longitude
+                                        )
+                                        sheetHeight = 0
+                                        showButton = true
                                     }
                                 } label: {
                                     ParkListView(park: park)
@@ -117,11 +166,11 @@ struct DashboardView: View {
                             .clipShape(Circle())
                             .shadow(radius: 8)
                             .offset(y: bounce ? -6 : 0)  // Bounce offset
-                                        .animation(
-                                            Animation.easeInOut(duration: 1.4)
-                                                .repeatForever(autoreverses: true),
-                                            value: bounce
-                                        )
+                            .animation(
+                                Animation.easeInOut(duration: 1.4)
+                                    .repeatForever(autoreverses: true),
+                                value: bounce
+                            )
                     }
                     .padding(.bottom, 150)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -132,17 +181,15 @@ struct DashboardView: View {
                     }
                 }
             }
-            .sheet(item: $selectedPark) { park in
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(item: $detailPark) { park in
                 DogParkDetailSheet(park: park)
             }
-            .navigationBarTitleDisplayMode(.inline)
+
         }
         .navigationBarBackButtonHidden(true)
     }
 }
-
-
-
 
 #Preview {
     DashboardView()

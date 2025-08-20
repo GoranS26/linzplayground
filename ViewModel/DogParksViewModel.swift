@@ -26,11 +26,16 @@ class DogParksViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 let parksData = try decoder.decode([DogParkData].self, from: data)
                 DispatchQueue.main.async {
-                    self.dogParks = parksData.map {
-                        DogPark(name: $0.name,
-                                address: $0.address, description: $0.description,
-                                coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
+                    self.dogParks = parksData.map { data in
+                        DogPark(
+                            id: data.id,   // <- use the hardcoded/stable UUID string from JSON
+                            name: data.name,
+                            address: data.address,
+                            description: data.description,
+                            coordinate: CLLocationCoordinate2D(latitude: data.latitude, longitude: data.longitude)
+                        )
                     }
+
                 }
             } catch {
                 print("JSON decode error: \(error)")

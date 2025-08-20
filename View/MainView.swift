@@ -77,8 +77,8 @@ struct MainView: View {
                         .padding(.horizontal, 20)
                         .padding(.bottom, 20)
                         .opacity(animateText ? 1 : 0)
-                        .offset(y: animateText ? 0 : 20)
-                        .animation(.easeInOut(duration: 1.5).delay(0.5), value: animateText)
+//                        .offset(x: animateText ? 0 : 1)
+                        .animation(.easeInOut(duration: 1.5), value: animateText)
 
                     if showButton {
                         NavigationLink(destination: DashboardView()) {

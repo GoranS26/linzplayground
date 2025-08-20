@@ -10,6 +10,7 @@ import CoreLocation
 
 // Helper struct to decode JSON
 struct DogParkData: Decodable {
+    let id: String
     let name: String
     let address: String
     let description: String
@@ -19,7 +20,7 @@ struct DogParkData: Decodable {
 
 // Dog Park Model
 struct DogPark: Identifiable, Equatable {
-    let id = UUID()
+    let id: String
     let name: String
     let address: String
     var description: String
@@ -28,6 +29,7 @@ struct DogPark: Identifiable, Equatable {
     static func == (lhs: DogPark, rhs: DogPark) -> Bool {
         return lhs.id == rhs.id
     }
+    
 }
 
 
