@@ -184,6 +184,7 @@ struct DashboardView: View {
             .navigationBarTitleDisplayMode(.inline)
             .sheet(item: $detailPark) { park in
                 DogParkDetailSheet(park: park)
+                    .presentationDetents([.fraction(0.35)])
             }
 
         }
